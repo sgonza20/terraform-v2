@@ -31,7 +31,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Initialize Terraform (Prod)
-        run: terraform init -backend-config=./environments/prod/backend-prod.tf
+        run: terraform init 
         working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod
 
       - name: Terraform Plan (Prod)
@@ -61,7 +61,7 @@ jobs:
         run: cd /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev
 
       - name: Initialize Terraform (Dev)
-        run: terraform init -backend-config=./environments/dev/backend-dev.tf
+        run: terraform init 
         working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev
 
       - name: Terraform Plan (Dev)
