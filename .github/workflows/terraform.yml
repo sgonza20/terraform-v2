@@ -1,5 +1,10 @@
 name: Terraform
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
 on:
   push:
     branches:
@@ -21,6 +26,11 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+      
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@master
@@ -30,7 +40,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Initialize Terraform (Prod)
-        run: terraform init -backend-config=./backend-prod.tf
+        run: terraform init -backend-config=./environments/prod/backend-prod.tf
 
       - name: Terraform Plan (Prod)
         run: terraform plan -var-file=./environments/prod/terraform.tfvars
@@ -50,6 +60,11 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+      
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY      
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@master
@@ -59,7 +74,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Initialize Terraform (Dev)
-        run: terraform init -backend-config=./backend-dev.tf
+        run: terraform init -backend-config=./environments/dev/backend-dev.tf
 
       - name: Terraform Plan (Dev)
         run: terraform plan 
