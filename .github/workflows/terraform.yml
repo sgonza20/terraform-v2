@@ -59,7 +59,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: CD into Dev
-        run: cd cd /terraform-v2/terraform/environments/dev
+        run: cd /terraform-v2/terraform/environments/dev
 
       - name: Initialize Terraform (Dev)
         run: terraform init -backend-config=./environments/dev/backend-dev.tf
