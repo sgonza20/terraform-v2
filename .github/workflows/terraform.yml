@@ -12,6 +12,7 @@ jobs:
   terraform-prod:
     runs-on: ubuntu-latest
     permissions:
+      packages: write
       id-token: write
       contents: read
     steps:
@@ -39,6 +40,10 @@ jobs:
 
   terraform-dev:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      id-token: write
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
