@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "static_website" {
-  source      = "../../modules/static-website"
+  source      = "../../modules/cm-s3"
   bucket_name = "prod-static-website"
   tags = {
     Name = "Prod Static Website Bucket"

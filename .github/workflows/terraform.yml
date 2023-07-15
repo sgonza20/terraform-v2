@@ -30,14 +30,13 @@ jobs:
           AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: CD
-        run: cd /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod
-
       - name: Initialize Terraform (Prod)
-        run: terraform init /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod -backend-config=./environments/prod/backend-prod.tf
+        run: terraform init -backend-config=./environments/prod/backend-prod.tf
+        working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod
 
       - name: Terraform Plan (Prod)
         run: terraform plan 
+        working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod
 
       - name: Terraform Apply (Prod)
         run: terraform apply --auto-approve
@@ -62,10 +61,12 @@ jobs:
         run: cd /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev
 
       - name: Initialize Terraform (Dev)
-        run: terraform init /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev -backend-config=./environments/dev/backend-dev.tf
+        run: terraform init -backend-config=./environments/dev/backend-dev.tf
+        working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev
 
       - name: Terraform Plan (Dev)
-        run: terraform plan 
+        run: terraform plan
+        working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev 
 
       - name: Terraform Apply (Dev)
         run: terraform apply --auto-approve

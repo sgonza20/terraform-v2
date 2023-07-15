@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "prod-state-bucket"
+    bucket         = "samstesting-dev-state-bucket"
     region         = "us-east-1"
     dynamodb_table = "prod-lock-table"
     encrypt        = true
