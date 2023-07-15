@@ -30,17 +30,15 @@ jobs:
           AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: CD into Prod
-        run: cd /environments/prod
-
       - name: Initialize Terraform (Prod)
         run: terraform init -backend-config=./environments/prod/backend-prod.tf
 
       - name: Terraform Plan (Prod)
-        run: terraform plan -var-file=./environments/prod/terraform.tfvars
+        run: pwd
+        run: terraform plan 
 
       - name: Terraform Apply (Prod)
-        run: terraform apply -var-file=./environments/prod/terraform.tfvars --auto-approve
+        run: terraform apply --auto-approve
 
   terraform-dev:
     runs-on: ubuntu-latest
@@ -58,13 +56,11 @@ jobs:
           AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: CD into Dev
-        run: cd /environments/dev
-
       - name: Initialize Terraform (Dev)
         run: terraform init -backend-config=./environments/dev/backend-dev.tf
 
       - name: Terraform Plan (Dev)
+        run: pwd
         run: terraform plan 
 
       - name: Terraform Apply (Dev)
