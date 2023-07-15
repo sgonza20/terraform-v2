@@ -1,0 +1,60 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+          aws-region: us-east-1
+
+      - name: Initialize Terraform (Prod)
+        run: terraform init -backend-config=./backend-prod.tf
+
+      - name: Terraform Plan (Prod)
+        run: terraform plan -var-file=./environments/prod/terraform.tfvars
+
+      - name: Terraform Apply (Prod)
+        run: terraform apply -var-file=./environments/prod/terraform.tfvars --auto-approve
+
+  terraform-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: us-east-1
+
+      - name: Initialize Terraform (Dev)
+        run: terraform init -backend-config=./backend-dev.tf
+
+      - name: Terraform Plan (Dev)
+        run: terraform plan -var-file=./environments/dev/terraform.tfvars
+
+      - name: Terraform Apply (Dev)
+        run: terraform apply -var-file=./environments/dev/terraform.tfvars --auto-approve
