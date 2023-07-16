@@ -34,11 +34,17 @@ jobs:
       - name: Initialize Terraform (Prod)
         run: terraform init 
         working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod
+        env:
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Plan (Prod)
         run: terraform plan 
         working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/prod
-
+        env:
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          
       - name: Terraform Apply (Prod)
         run: terraform apply --auto-approve
 
@@ -64,10 +70,16 @@ jobs:
       - name: Initialize Terraform (Dev)
         run: terraform init 
         working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev
+        env:
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}        
 
       - name: Terraform Plan (Dev)
         run: terraform plan
         working-directory: /home/runner/work/terraform-v2/terraform-v2/terraform/environments/dev 
+        env:
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Apply (Dev)
         run: terraform apply --auto-approve
